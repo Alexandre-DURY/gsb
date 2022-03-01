@@ -1,0 +1,148 @@
+<!-- insertion du menu vertical -->
+
+<app-navbar></app-navbar>
+
+<!-- sélecteur général pour envelopper (wrap) le tout -->
+
+<div class="wrapper" >
+
+  <!--Formulaire pour choisir une spécialité afin d'afficher les praticiens -->
+
+<form name="frmSpecialite" *ngIf="afficherSpecialite"  (ngSubmit)="validerSpecialite()">
+  <h3>Séléctionner une spécialité</h3><br>
+  <select  name="specialitePraticien" [(ngModel)]="id_specialite" >
+    <option *ngFor="let specialite of lesSpecialites" value="{{specialite.id_specialite}}">{{specialite.lib_specialite}}</option>
+  </select>
+  <button type="submit" class="btn btn-primary" data-toggle="tooltip" dataplacement="bottom" title="valider ajout"><i
+    class="fas facheck"></i>Valider</button>
+  <div class="alert alert-danger" *ngIf="afficherMessage">{{lblMessage }}</div>
+</form>
+
+  <!--tableau des praticiens avec la spécialité choisi -->
+
+  <div class="col-lg-6">
+  <table class="table" *ngIf="afficherTable">
+    <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Prenom</th>
+      <th scope="col">Détails</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let praticien of lesPraticiens">
+      <th scope="row">{{ praticien.nom_praticien }}</th>
+      <th scope="row">{{ praticien.prenom_praticien }}</th>
+      <th scope="row" (click)="selectionner(praticien)"><i class="fas fa-info"></i></th>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!--Informations générale sur le praticien -->
+
+  <div class="col-lg-6" style="margin-bottom:20px;" name="frmPraticien" *ngIf="afficherPraticien">
+    <div class="col-lg-4" style="float:left;">
+      <div class="form-group">
+        <label for="praticien.nom_praticien">Nom : {{ praticien.nom_praticien }}</label>
+      </div>
+      <div class="form-group">
+        <label for="praticien.prenom_praticien">Prénom : {{ praticien.prenom_praticien }}</label>
+      </div>
+      <div class="form-group">
+        <label for="praticien.adresse_praticien">Adresse : {{ praticien.adresse_praticien }}</label>
+      </div>
+    </div>
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4" style="float:right;">
+      <div class="form-group">
+        <label for="praticien.nom_praticien">Code Postal : {{ praticien.cp_praticien }}</label>
+      </div>
+      <div class="form-group">
+        <label for="praticien.prenom_praticien">Ville : {{ praticien.ville_praticien }}</label>
+      </div>
+      <div class="form-group">
+        <label for="praticien.adresse_praticien">Coefficient de notoriété : {{ praticien.coef_notoriete }}</label>
+      </div>
+    </div>
+  </div>
+
+  <!--Détails du praticien concerné -->
+
+  <div class="col-lg-6" *ngIf="afficherDetail">
+    <div  type="button" style="width: 20%; float: left; margin-bottom:20px;" class="btn btn-success" (click)="ajouter()" >Ajouter une spécialité</div>
+    <table class="table" >
+      <thead>
+      <tr>
+        <th scope="col" style="width:40%;">Specialite</th>
+        <th scope="col">Diplome</th>
+        <th scope="col">Coefficient de prescription</th>
+        <th scope="col">Modifier</th>
+        <th scope="col">Supprimer</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let posseder of lesPosseder">
+        <th scope="row">{{ posseder.lib_specialite }} </th>
+        <th scope="row">{{ posseder.diplome }}</th>
+        <th scope="row">{{ posseder.coef_prescription }}</th>
+        <th scope="row"(click)="modifier(posseder)"><i class="fas fa-edit"></i></th>
+        <th scope="row"(click)="supprimer(posseder)"><i class="fas fa-trash-alt"></i></th>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Formulaire de modification de specialité -->
+  <div class="col-lg-6">
+    <form name="frmSpecialite" *ngIf="afficherModif" (ngSubmit)="valider(posseder)">
+      <div class="form-group">
+        <label for="posseder.diplome">Diplome </label>
+        <textarea rows="3" cols="30" required="true" [(ngModel)]="posseder.diplome" name="diplome">
+     </textarea>
+      </div>
+      <div class="form-group">
+        <label for="posseder.coef_prescription">Coefficient de prescription</label>
+        <input type="number" step="0.01" required="true" [(ngModel)]="posseder.coef_prescription" name="coef" />
+      </div>
+      <!--valider la modification -->
+      <button type="submit" class="btn btn-primary" data-toggle="tooltip" dataplacement="bottom" title="Enregistre vos modifications"><i
+        class="fas facheck"></i>Valider</button>
+      <div class="alert alert-danger" *ngIf="afficherMessage">{{lblMessage }}</div>
+    </form>
+  </div>
+
+  <!--Button pour supprimer une spécialité -->
+
+  <div class="col-lg-6">
+    <form name="frmSuppr" *ngIf="afficherSuppr" (ngSubmit)="validerSuppr(posseder)">
+      <!--valider la suppression -->
+      <label>Valider suppresion ?</label>
+      <button type="submit" class="btn btn-primary" data-toggle="tooltip" dataplacement="bottom" title="valider la suppression"><i
+        class="fas facheck"></i>Valider</button>
+      <div class="alert alert-danger" *ngIf="afficherMessage">{{lblMessage }}</div>
+    </form>
+  </div>
+
+  <!-- list box d'ajout d'une spécialité -->
+
+  <form name="frmAjout" *ngIf="afficherAjout" (ngSubmit)="validerAjout()" >
+    <h3>Ajout d'une spécialité</h3><br>
+    <select name="specialite" [(ngModel)]="id_specialite">
+      <option *ngFor="let specialite of lesSpecialites" value="{{specialite.id_specialite}}">{{specialite.lib_specialite}}</option>
+    </select>
+    <br><br>
+    <div class="form-group">
+      <label for="posseder.diplome">Diplome </label>
+      <textarea [(ngModel)]="diplome" rows="3" cols="30" required="true"  name="diplome">
+         </textarea>
+    </div>
+    <div class="form-group">
+      <label for="posseder.coef_prescription">Coefficient de prescription</label>
+      <input  [(ngModel)]="coef_prescription" type="number" step="0.01" required="true"  name="coef" />
+    </div>
+    <button type="submit" class="btn btn-primary" data-toggle="tooltip" dataplacement="bottom" title="valider ajout"><i
+      class="fas facheck"></i>Valider</button>
+    <div class="alert alert-danger" *ngIf="afficherMessage">{{lblMessage }}</div>
+  </form>
+</div>

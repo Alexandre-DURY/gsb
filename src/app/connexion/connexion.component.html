@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <h1>
+    {{titre}}
+  </h1>
+  <form class="login" name="frmLogin" (ngSubmit)="valider()">
+    <div class="form-group">
+      <label for="login">{{lblLogin}}</label>
+      <input type="text" name="lg" class="form-control" placeholder="Login" [(ngModel)]="login" />
+      <i class="fa fa-user"></i>
+    </div>
+    <div class="form-group">
+      <label for="mdp">{{lblMdp}}</label>
+      <input type="password" name="mdp" class="form-control" placeholder="Mot de passe" [(ngModel)]="mdp" />
+      <i class="fa fa-key"></i>
+    </div>
+    <div class="alert alert-danger" [hidden]="estCache">{{lblMessage}} </div>
+    <button class="state" type="submit"><i class="fas fa-check-circle"></i> Valider</button>
+  </form>
+</div>

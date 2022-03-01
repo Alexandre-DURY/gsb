@@ -1,0 +1,60 @@
+<!-- insertion du menu vertical -->
+<app-navbar></app-navbar>
+<!-- sélecteur général pour envelopper (wrap) le tout -->
+<div class="wrapper">
+    <!-- colonne bootstrap classique -->
+    <div class="col-lg-6">
+        <!-- partie recherche -->
+        <div class="form-group recherche">
+            <input type="search" name="recNom" placeholder="Nom du médecin......" size=30 [(ngModel)]="nomMedecin" (keyup)="charger()"
+            />
+            <i class="fa fa-search"></i>
+        </div>
+        <!-- tableau des médecins -->
+        <table class="table" *ngIf="afficherTable">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Departement</th>
+                    <th scope="col">Modifier</th>
+                    <th scope="col">Dernier rapport</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let medecin of lesMedecins">
+                    <th scope="row">{{ medecin.nom }}</th>
+                    <th scope="row">{{ medecin.prenom }}</th>
+                    <th scope="row">{{ medecin.departement }}</th>
+                    <th scope="row" (click)="selectionner(medecin)"><i class="far fa-edit"></i></th>
+                    <th scope="row" (click)="derniersRapports(medecin)"><i class="fas fa-file-word"></i></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--formulaire de MAJ du médecin-->
+    <form class="col-lg-6" name="frmMedecin" *ngIf="afficherMedecin" (ngSubmit)="valider()">
+        <div class="form-group">
+            <label for="medecin.adresse">Adresse </label>
+            <textarea rows="3" cols="30" required="true" [(ngModel)]="medecin.adresse" name="adr">
+ </textarea>
+        </div>
+        <div class="form-group">
+            <label for="medecin.tel">Téléphone</label>
+            <input type="text" required="true" [(ngModel)]="medecin.tel" name="tel" />
+        </div>
+        <div class="form-group">
+            <label for="medecin.specialitecomplementaire">Spécialité</label>
+            <input type="text" [(ngModel)]="medecin.specialitecomplementaire" name="spec" />
+        </div>
+        <!--appel des fonctionnalités popper.js (tooltip) -->
+        <button type="submit" class="btn btn-primary" data-toggle="tooltip" dataplacement="bottom" title="Enregistre vos modifications"><i
+                class="fas facheck"></i>Valider</button>
+        <div class="alert alert-danger" *ngIf="afficherMessage">{{lblMessage }}</div>
+    </form>
+    <div *ngIf="afficherRapport" class="form-group">
+        <select>
+            <option *ngFor="let rapport of lesRapports" >{{rapport.bilan}}</option>
+        </select>
+    </div>
+</div>

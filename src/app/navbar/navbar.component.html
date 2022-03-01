@@ -1,0 +1,56 @@
+<div class="area">
+  <nav class="main-menu">
+    <ul>
+      <li>
+        <a routerLink="/accueil">
+          <i class="fa fa-home fa-2x"></i>
+          <span class="nav-text">
+            Accueil
+          </span>
+        </a>
+      </li>
+      <li>
+        <a href="/visites">
+          <i class="fas fa-edit fa-2x"></i>
+          <span class="nav-text">
+            Gestion des visites
+          </span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/medecins">
+          <i class="fas fa-user-md fa-2x"></i>
+          <span class="nav-text">
+            Gestion des médecins
+          </span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/praticiens-n">
+          <i class="fas fa-user-md fa-2x"></i>
+          <span class="nav-text">
+            Gestion des praticiens par nom
+          </span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/praticiens-s">
+          <i class="fas fa-user-md fa-2x"></i>
+          <span class="nav-text">
+            Gestion des praticiens par spécialité
+          </span>
+        </a>
+      </li>
+    </ul>
+    <ul class="logout">
+      <li>
+        <a (click)="logout()" routerLink="/connexion">
+          <i class="fa fa-power-off fa-2x"></i>
+          <span class="nav-text">
+            Déconnexion
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
